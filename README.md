@@ -37,6 +37,20 @@ $ cat project_secrets
 AFFINITY_API_KEY='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 ```
 
+### Options and usage
+
+```
+usage: get-from-affinity-api.py [-h] [-a API_VERSION] [-t TOKEN] [-r RESULTS_KEY] [-o OUTPUT_FILE] [-d] [-D]
+                                [--force-retry] [--delete] [--dry-run]
+                                path
+```
+
+Notes:
+
+* `--token` is required if the file `project_secrets.py` is not used (see above)
+* `--results-key` can be used to pull out/up results from inside the JSON, for example `--results-key companies`
+* `--force-retry` handles 401 errors as if they were 429 (rate limit errors)
+
 ## Transforming Affinity JSON data into CSV
 
 The Affinity API uses a set of common JSON representations for many of the data it provides. The script called `convert-affinity-json-to-csv.py` transforms Affinity's JSON representation of persons, companies, and opportunities into CSV format. This enables loading the data into systems that work with tabular data such as spreadsheets and relational databases.
