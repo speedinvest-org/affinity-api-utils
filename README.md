@@ -43,9 +43,33 @@ $ ./get-from-affinity-api.py -a v1 /lists
 This command prints the results in JSON format to `stdout`:
 
 ```
-{"id": 12345, "type": 0, "name": "Portfolio company contacts", "public": false, "owner_id": 3733332, "creator_id": 3733332, "list_size": 235}
-{"id": 12346, "type": 1, "name": "Startups Deal Flow", "public": true, "owner_id": 3733333, "creator_id": 3733333, "list_size": 8901}
-{"id": 224423, "type": 8, "name": "Limited Partners", "public": false, "owner_id": 3733332, "creator_id": 123456, "list_size": 100}
+{
+  "id": 12345,
+  "type": 0,
+  "name": "Portfolio company contacts",
+  "public": false,
+  "owner_id": 3733332,
+  "creator_id": 3733332,
+  "list_size": 235
+}
+{
+  "id": 12346,
+  "type": 1,
+  "name": "Startups Deal Flow",
+  "public": true,
+  "owner_id": 3733333,
+  "creator_id": 3733333,
+  "list_size": 8901
+}
+{
+  "id": 224423,
+  "type": 8,
+  "name": "Limited Partners",
+  "public": false,
+  "owner_id": 3733332,
+  "creator_id": 123456,
+  "list_size": 100
+}
 ```
 
 ### Authentication
@@ -66,6 +90,25 @@ The available options for `get-from-affinity-api.py` are:
 usage: get-from-affinity-api.py [-h] [-a API_VERSION] [-t TOKEN] [-r RESULTS_KEY] [-o OUTPUT_FILE] [-d] [-D]
                                 [--force-retry] [--delete] [--dry-run]
                                 path
+
+positional arguments:
+  path                  path to get, can include URL encoded parameters
+
+options:
+  -h, --help            show this help message and exit
+  -a API_VERSION, --api-version API_VERSION
+                        [v1 | v2] (default: v1)
+  -t TOKEN, --token TOKEN
+                        API access token for v1 and v2 API (default: )
+  -r RESULTS_KEY, --results-key RESULTS_KEY
+                        Key to extract items from JSON response (default: )
+  -o OUTPUT_FILE, --output-file OUTPUT_FILE
+                        write output to file instead of stdout (default: )
+  -d, --debug           Print some debug info to stderr (default: False)
+  -D, --debug-retry     Print some debug info to stderr in case of error 429 rate limit (default: False)
+  --force-retry         Retry 401 errors as if they were 429 (default: False)
+  --delete              Send a DELETE request instead of GET (default: False)
+  --dry-run             Do not make the request (default: False)
 ```
 
 **Key Options:**
@@ -97,7 +140,7 @@ $ ./get-from-affinity-api.py -a v2 /lists/12346/saved-views/23458/list-entries |
 The output will look like:
 
 ```
-Affinity Row ID,Organization ID,Name,Domain,Domains,Status,Owner,Team,Fund,Description,Initial Investment Date,Link to document
-1234567,2345,Startup Inc.,startupdomain.com,startupdomain.com,,"345678, jane.im@ourvcfirm.com",Fintech,Fund I,The automation platform for everything.,2024-01-01T08:00:00Z,https://drive.google.com/drive/folders/abcdefg123456
-1234568,2346,AnotherStartup Inc.,anotherstartupdomain.com,anotherstartupdomain.com,,"345679, sandeep.partner@ourvcfirm.com",Growth,Growth Fund 2024,Another automation platform for everything.,2024-02-01T09:00:00Z,https://drive.google.com/drive/folders/bcdefgh234567
+Affinity Row ID,Organization ID,Name,Domain,Domains,Status,Owner,Team,Fund,Description
+1234567,2345,Startup Inc.,startupdomain.com,startupdomain.com,,"345678, jane.im@ourvcfirm.com",Fintech,Fund I,The automation platform for everything.
+1234568,2346,AnotherStartup Inc.,anotherstartupdomain.com,anotherstartupdomain.com,,"345679, sandeep.partner@ourvcfirm.com",Growth,Growth Fund 2024,Another automation platform for everything.
 ```
