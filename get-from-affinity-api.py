@@ -44,13 +44,10 @@ class AffinityClient:
 
         if resp.status_code != 200:
             id_params = repr({k:v for k,v in params.items() if k.endswith("_id")} or '')
-            #if debug:
-            #    print(f"Error. Response {resp.text}", file=sys.stderr)
-            #raise Exception(f"Failed to get {url} {id_params} : {resp.status_code} {resp.text}")
             print(f"Error response {resp.status_code} : '{resp.text}' when fetching {url} {id_params}", file=sys.stderr)
             sys.exit(1)
-        #if debug:
-        print(f"Response: {resp}", file=sys.stderr)
+        if debug:
+            print(f"Response: {resp}", file=sys.stderr)
 
     def get(self, path, params={}, page_token=None, results_key=None, force_retry=False, debug=False, debug_retry=False):
         url = path if path[:4] == "http" \
@@ -60,7 +57,6 @@ class AffinityClient:
             params['page_token'] = page_token
         if debug:
             print(f"Fetching {url} with params {params}", file=sys.stderr)
-            #print(f"headers {self._headers}", file=sys.stderr)
         resp = requests.get(url, params=params, auth=self._auth,
             headers=self._headers | {'Accept-Encoding': 'gzip,deflate'})
         if resp.status_code == 429 or (resp.status_code in [401, 503] and force_retry):
@@ -78,9 +74,6 @@ class AffinityClient:
 
         if resp.status_code != 200:
             id_params = repr({k:v for k,v in params.items() if k.endswith("_id")} or '')
-            #if debug:
-            #    print(f"Error. Response {resp.text}", file=sys.stderr)
-            #raise Exception(f"Failed to get {url} {id_params} : {resp.status_code} {resp.text}")
             print(f"Error response {resp.status_code} : '{resp.text}' when fetching {url} {id_params}", file=sys.stderr)
             sys.exit(1)
 

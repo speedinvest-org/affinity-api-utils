@@ -7,11 +7,10 @@ import json
 import csv
 
 def get_field(data, name):
-    #print(f"debug: get_field called for field: {name}")
     fields = [x for x in data.get('entity',{}).get('fields',{}) if x.get('name') == name]
     if not fields:
         return None # or raise exception
-    # TODO: handle situations where more than one field matches the name
+    # Note this does not handle situations where more than one field matches the name
     return fields[0]
 
 def multi_handle_keep_nulls(handler, field_data, sep=','):
@@ -73,7 +72,6 @@ def handle_specific_dict_field(field):
     return handler_function(field_data)
 
 def get_value(field):
-    #print(f"debug: get_value called for field: {field}")
     if isinstance(field, (str, int, float)) or field is None:
         return field
     elif isinstance(field, list):
@@ -136,7 +134,6 @@ def main():
                 if field_name and field_name not in [fs[0] for fs in fields_spec]:
                     fields_spec.append((
                         field_name, lambda x,y: get_field(x, y)))
-            #print(f"debug: fields_spec = {fields_spec}")
             header = [fs[0] for fs in fields_spec]
             writer.writerow(header)
         output = [get_value(fs[1](data, fs[0])) for fs in fields_spec]
